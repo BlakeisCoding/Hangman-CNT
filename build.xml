@@ -1,0 +1,66 @@
+<project name="Hangman-Clean" default="Standard" basedir=".">
+
+
+	<property name="version">0.1</property>
+	<property name="dir.src">src</property>
+	<property name="dir.build">build</property>
+	<property name="dir.build.classes">${dir.build}/classes</property>
+	<property name="dir.build.javadoc">${dir.build}/javadoc</property>
+	<property name="file.jar">${dir.build}/Hangman-Clean-${version}.jar</property>
+
+	<target name="Standard">
+		<echo>Standard-Target</echo>
+	</target>
+
+	<target name="clean">
+		<delete dir="${dir.build}" />
+	</target>
+
+
+	<path id="projectClasspath">
+		<fileset dir="">
+			<include name="**.jar" />
+		</fileset>
+	</path>
+
+
+	<!-- Durch das Init wird der Ordner Build und der darinenthaltene Classes-Ordner 
+		erzeugt. -->
+
+
+	<target name="init">
+		<mkdir dir="${dir.build}" />
+		<mkdir dir="${dir.build.classes}" />
+	</target>
+
+
+	<target name="compile" depends="init">
+		<echo>CODE COMPILE!</echo>
+		<javac	classpathref="projectClasspath" 
+				srcdir="${dir.src}" 
+				destdir="${dir.build.classes}" 
+				includeantruntime="false" />
+	</target>
+
+	<target name="jar" depends="compile">
+		<echo>CREATE JAR FILE</echo>
+		<jar basedir="${dir.build.classes}" file="${file.jar}" />
+	</target>
+
+	<target name="run" depends="jar">
+		<java classpath="${dir.build.classes}" classname="Hangman" fork="true" />
+	</target>
+			
+	<target name="javadoc">
+		<echo> JavaDoc ERSTELLT</echo>
+		<javadoc destdir="${dir.build.javadoc}">
+			<fileset dir="." />
+		</javadoc>
+	</target>
+
+
+
+</project>
+
+
+
